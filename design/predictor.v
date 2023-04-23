@@ -15,8 +15,9 @@ module predictor (
     parameter num_perceptrons = 64;
     parameter history_length = 64;
     parameter perceptron_width = 8;
-    parameter hash_length = 6; // needs to be log2(num_perceptrons) but I don't know how to do that in verilog
+    parameter hash_length = 6; // needs to be log2(num_perceptrons) rounded up, but not sure how to do that in verilog
     parameter theta = 2 * history_length + 14;
+    integer theta_i = theta;
 
     // Inputs/Outputs
     input [address_length-1:0] b_addr;
@@ -96,7 +97,7 @@ module predictor (
     // After prediction, update weights
     always @(negedge clk) begin
         // update weights
-        if( (b_taken != prediction) || (y>(-1*theta) && y<theta)) begin
+        if( (b_taken != prediction) || (y>(-1*theta_i) && y<theta_i)) begin
             for (i = 0; i < history_length; i= i+1) begin
                 // increments the weight when the prediiction agrees with history, and decrements the weight when it disagrees
                 weights[p_select][i] = weights[p_select][i] + ((history[i] ? 1 : -1) * (b_taken ? 1 : -1));
