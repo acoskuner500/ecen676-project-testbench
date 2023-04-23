@@ -12,18 +12,14 @@ module history_fifo
 
     // registers
     reg [N-1:0] r_reg;
-    // next value
-    wire [N-1:0] r_next;
 
     initial
         r_reg = 0;
 
     // update fifo with new value
-    always @(negedge clk)
-        r_reg <= r_next;
+    always @(posedge clk)
+        r_reg <= {r_reg[N-2:0], s_in};
 
-
-    assign r_next = {s_in, r_reg[N-1:1]}; // shift
     assign r_out = r_reg; // output
  
 endmodule
