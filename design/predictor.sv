@@ -11,12 +11,12 @@ module predictor (
     prediction
 );
     // Parameters
-    parameter address_length = 64;
-    parameter num_perceptrons = 64;
-    parameter history_length = 64;
-    parameter perceptron_width = 8;
-    parameter hash_length = 6; // needs to be log2(num_perceptrons) but I don't know how to do that in verilog
-    parameter theta = 2 * history_length + 14;
+    parameter address_length    = `ADDR_WID             ;
+    parameter num_perceptrons   = `NUM_PERCEPTRONS      ;
+    parameter history_length    = `PERCEPTRON_HISTORY   ;
+    parameter perceptron_width  = `PERCEPTRON_BITS      ;
+    parameter hash_length       = `HASH_LENGTH          ;
+    parameter theta             = `THETA                ;
 
     // Inputs/Outputs
     input [address_length-1:0] b_addr;
@@ -52,7 +52,6 @@ module predictor (
     // History FIFO
     // 1 bit shift register with length N
     // updates on falling edge of update clock
-    reg hist_update;
     history_fifo #(.N(num_perceptrons)) history_fifo_1 (
         .clk(~clk),
         .s_in(b_taken),
@@ -67,12 +66,6 @@ module predictor (
             end
         end
     end
-
-    // initialize history
-    initial begin
-        hist_update = 1;
-    end
-
 
     // Compute prediction at each positive edge of clock
     assign prediction = y > 0;
@@ -90,7 +83,6 @@ module predictor (
         for (i = 0; i < history_length; i= i+1) begin
             $display("weights[%d][%d]: %d", p_select, i, weights[p_select][i]);
         end
-        hist_update = 1;
     end
 
     // After prediction, update weights
@@ -102,11 +94,6 @@ module predictor (
                 weights[p_select][i] = weights[p_select][i] + ((history[i] ? 1 : -1) * (b_taken ? 1 : -1));
             end
         end
-        // history is updated on falling edge of clock too
-        hist_update = 0;
     end
-
-
-
 
 endmodule

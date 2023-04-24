@@ -26,15 +26,12 @@ class bp_monitor_c extends uvm_monitor;
     task run_phase(uvm_phase phase);
         `uvm_info(get_type_name(), "RUN Phase", UVM_LOW)
         forever begin
-            @(posedge vi_bp_if.cpu_rd or posedge vi_bp_if.cpu_wr)
+            @(posedge vi_bp_if.clk)
             packet = bp_mon_packet_c::type_id::create("packet", this);
-            if(vi_bp_if.cpu_rd === 1'b1) begin
-                packet.request_type = READ_REQ;
-            end
-            packet.address = vi_bp_if.addr_bus_cpu_lv1;
-            @(posedge vi_bp_if.data_in_bus_cpu_lv1 or posedge vi_bp_if.cpu_wr_done)
-            packet.dat = vi_bp_if.data_bus_cpu_lv1;
-            @(negedge vi_bp_if.cpu_rd or negedge vi_bp_if.cpu_wr)
+            packet.ip = vi_bp_if.ip;
+            packet.b_taken = vi_bp_if.b_taken;
+            @(negedge vi_bp_if.clk)
+            packet.prediction = vi_bp_if.prediction;
             mon_out.write(packet);
         end
     endtask : run_phase

@@ -1,7 +1,7 @@
 // 1 bit shift register with length N
 module history_fifo
     // history length
-    #(parameter N=64)
+    #(parameter N=`NUM_PERCEPTRONS)
     (
         input wire clk,
         input wire s_in,
