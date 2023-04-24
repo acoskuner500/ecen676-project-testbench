@@ -20,3 +20,18 @@ class bp_base_seq extends uvm_sequence #(bp_transaction_c);
     endtask : post_body
 
 endclass : bp_base_seq
+
+// class simple_seq extends uvm_sequence #(bp_transaction_c);
+
+//     `uvm_object_utils(simple_seq)
+
+//     function new (string name = "simple_seq");
+//         super.new(name);
+//     endfunction
+
+//     virtual task body();
+//         `uvm_info(get_type_name(), "executing 5 bp transaction", UVM_LOW)
+//         repeat(5)
+//             `uvm_do(req)
+//     endtask
+// endclass : simple_seq

@@ -1,26 +1,32 @@
 class bp_mon_packet_c extends uvm_sequence_item;
 
-    parameter ADDR_WID              = `ADDR_WID             ;
-    parameter PERCEPTRON_HISTORY    = `PERCEPTRON_HISTORY   ;
-    parameter PERCEPTRON_BITS       = `PERCEPTRON_BITS      ;
-    parameter NUM_PERCEPTRONS       = `NUM_PERCEPTRONS      ;
+    request_t request_type;//Read or Write
+    addr_t addr_type;//ICACHe or DCACHE
+    logic [DATA_WID_LV1-1 : 0] dat;//Data
+    logic [ADDR_WID_LV1-1 : 0] address;//Address
+    int num_cycles;//Number of cycles to service the request
+    bit illegal;//Is the request illegal i.e. write to ICACHE
 
-    logic [ADDR_WID - 1:0]  ip;
-    logic                   b_taken;
-    logic                   prediction;
 
-// UVM macros for built-in automation    
-    `uvm_object_utils_begin(bp_mon_packet_c)
-        `uvm_field_int(ip, UVM_ALL_ON)
-        `uvm_field_int(b_taken, UVM_ALL_ON)
-        `uvm_field_int(prediction, UVM_ALL_ON)
+// UVM macros for built-in automation
+    `uvm_object_utils_begin(cpu_mon_packet_c)
+        `uvm_field_int(dat, UVM_ALL_ON)
+        `uvm_field_int(address, UVM_ALL_ON)
+        `uvm_field_int(num_cycles, UVM_ALL_ON)
+        `uvm_field_int(illegal, UVM_ALL_ON)
+        `uvm_field_enum(request_t, request_type, UVM_ALL_ON)
+        `uvm_field_enum(addr_t, addr_type, UVM_ALL_ON)
     `uvm_object_utils_end
 
 // Constructor
-    function new (string name = "bp_mon_packet_c");
+    function new (string name = "cpu_mon_packet_c");
         super.new(name);
-        this.ip         = {ADDR_WID{1'bz}}  ;
-        this.b_taken    = 1'b0              ;
-        this.prediction = 1'b0              ;
+
+        this.dat            = {DATA_WID_LV1{1'bz}};
+        this.address        = {ADDR_WID_LV1{1'bz}};
+        this.num_cycles     = 0;
+        this.illegal        = 1'b0;
+
     endfunction : new
-endclass : bp_mon_packet_c
+endclass : cpu_mon_packet_c
+

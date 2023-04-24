@@ -1,3 +1,10 @@
+//=====================================================================
+// Project: 4 core MESI cache design
+// File Name: cpu_package_c.sv
+// Description: cpu package
+// Designers: Venky & Suru
+//=====================================================================
+
 package bp_pkg;
     import uvm_pkg::*;
     `include "uvm_macros.svh"
