@@ -23,4 +23,3 @@ class base_vseq extends uvm_sequence;
     endtask : post_body
 
 endclass : base_vseq
-

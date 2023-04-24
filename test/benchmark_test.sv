@@ -1,7 +1,7 @@
 class benchmark_test extends base_test;
 
     //component macro
-    `uvm_component_utils(read_miss_icache)
+    `uvm_component_utils(benchmark_test)
 
     //Constructor
     function new(string name, uvm_component parent);
@@ -19,7 +19,7 @@ class benchmark_test extends base_test;
         `uvm_info(get_type_name(), "Executing benchmark test" , UVM_LOW)
     endtask: run_phase
 
-endclass : read_miss_icache
+endclass : benchmark_test
 
 class benchmark_seq extends base_vseq;
     //object macro
