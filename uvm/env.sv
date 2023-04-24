@@ -35,7 +35,7 @@ class env extends uvm_env;
 //UVM connect phase method
     function void connect_phase(uvm_phase phase);
         vsequencer.bp_seqr = bp_agent.sequencer;
-        bp_agent.monitor.mon_out.connect(sb.sb_bp);
+        bp_agent.monitor.mon_out.connect(bp_sb.sb_bp);
     endfunction : connect_phase
 
 endclass: env

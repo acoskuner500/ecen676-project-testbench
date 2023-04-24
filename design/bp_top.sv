@@ -4,7 +4,7 @@ module bp_top # (
                 parameter PERCEPTRON_HISTORY = `PERCEPTRON_HISTORY,
                 parameter PERCEPTRON_BITS    = `PERCEPTRON_BITS   ,
                 parameter HASH_LENGTH        = `HASH_LENGTH       ,
-                parameter THETA              = `THETA             ,
+                parameter THETA              = `THETA
                 )(
                     input                   clk     ,
                     input [ADDR_WID - 1:0]  b_addr  ,

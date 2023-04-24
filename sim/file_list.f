@@ -1,6 +1,6 @@
 //include directories
-    -incdir ../design
-    -incdir ../gold
+    // -incdir ../design
+    // -incdir ../gold
     -incdir ../uvm
     -incdir ../test
 

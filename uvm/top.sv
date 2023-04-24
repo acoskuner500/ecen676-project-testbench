@@ -30,7 +30,7 @@ module top;
     // Instantiate DUT
     bp_top inst_bp_top (
                         .clk(clk),
-                        .b_addr(inst_bp_if.b_addr),
+                        .b_addr(inst_bp_if.ip),
                         .b_taken(inst_bp_if.b_taken),
                         .prediction(inst_bp_if.prediction)
                        );
